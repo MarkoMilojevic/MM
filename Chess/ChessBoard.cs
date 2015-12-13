@@ -19,6 +19,22 @@ namespace MM.Chess
 			InitializeFields();
 		}
 
+		public ChessField ChessFieldAt(int row, int column)
+		{
+			if (row < 0 || row >= Chessboard.Dimension || column < 0 || column >= Chessboard.Dimension)
+			{
+				throw new IndexOutOfRangeException("");
+			}
+
+			return this.fields[row][column];
+		}
+
+		public ChessPiece ChessPieceAt(int row, int column)
+		{
+			
+			return this.ChessFieldAt(row, column).ChessPiece;
+		}
+
 		private bool AreFieldsValid(ChessField[][] fields)
 		{
 			if (fields == null || fields.Length != Chessboard.Dimension)

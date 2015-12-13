@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace MM.Chess
 {
@@ -6,12 +8,7 @@ namespace MM.Chess
 	{
 		WHITE, BLACK
 	}
-
-	public enum ChessPieceType
-	{
-		PAWN, ROOK, KNIGHT, BISHOP, QUEEN, KING
-	}
-
+	
 	public abstract class ChessPiece
 	{
 		protected Chessboard chessboard;
@@ -42,12 +39,7 @@ namespace MM.Chess
 			get;
 			private set;
 		}
-
-		public abstract ChessPieceType Type
-		{
-			get;
-		}
-
+		
 		public ChessPiece(Chessboard chessboard, ChessPieceSuit suit)
 		{
 			if (chessboard == null)
@@ -58,5 +50,37 @@ namespace MM.Chess
 			this.chessboard = chessboard;
 			this.Suit = suit;
 		}
+
+		public abstract IEnumerable<ChessField> GetReachableFields();
+
+		public bool IsFieldReachable(ChessField field)
+		{
+			if (field == null)
+			{
+				throw new ArgumentException("");
+			}
+
+			return this.GetReachableFields().Contains(field);
+		}
+
+		public ChessPiece MoveTo(ChessField field)
+		{
+			if (field == null)
+			{
+				throw new ArgumentException("");
+			}
+
+			if (!this.IsFieldReachable(field))
+			{
+				throw new ArgumentException("");
+			}
+
+			ChessPiece eatenPiece = field.ChessPiece;
+			this.ChessField.ChessPiece = null;
+			field.ChessPiece = this;
+			return eatenPiece;
+		}
+
+		public abstract ChessPiece SpecialMoveTo(ChessField field);
 	}
 }

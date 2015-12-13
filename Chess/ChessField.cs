@@ -41,22 +41,33 @@ namespace MM.Chess
 		{
 			get
 			{
-				switch (this.ChessPiece.Type)
+				if (this.ChessPiece is Pawn)
 				{
-					case ChessPieceType.PAWN:
-						return this.ChessPiece.Suit == ChessPieceSuit.WHITE ? ChessField.WhitePawn : ChessField.BlackPawn;
-					case ChessPieceType.ROOK:
-						return this.ChessPiece.Suit == ChessPieceSuit.WHITE ? ChessField.WhiteRook : ChessField.BlackRook;
-					case ChessPieceType.KNIGHT:
-						return this.ChessPiece.Suit == ChessPieceSuit.WHITE ? ChessField.WhiteKnight : ChessField.BlackKnight;
-					case ChessPieceType.BISHOP:
-						return this.ChessPiece.Suit == ChessPieceSuit.WHITE ? ChessField.WhiteBishop : ChessField.BlackBishop;
-					case ChessPieceType.QUEEN:
-						return this.ChessPiece.Suit == ChessPieceSuit.WHITE ? ChessField.WhiteQueen : ChessField.BlackQueen;
-					case ChessPieceType.KING:
-						return this.ChessPiece.Suit == ChessPieceSuit.WHITE ? ChessField.WhiteKing : ChessField.BlackKing;
-					default:
-						return ChessField.EmptyField;
+					return this.ChessPiece.Suit == ChessPieceSuit.WHITE ? ChessField.WhitePawn : ChessField.BlackPawn;
+				}
+				else if (this.ChessPiece is Rook)
+				{
+					return this.ChessPiece.Suit == ChessPieceSuit.WHITE ? ChessField.WhiteRook : ChessField.BlackRook;
+				}
+				else if (this.ChessPiece is Knight)
+				{
+					return this.ChessPiece.Suit == ChessPieceSuit.WHITE ? ChessField.WhiteKnight : ChessField.BlackKnight;
+				}
+				else if (this.ChessPiece is Bishop)
+				{
+					return this.ChessPiece.Suit == ChessPieceSuit.WHITE ? ChessField.WhiteBishop : ChessField.BlackBishop;
+				}
+				else if (this.ChessPiece is Queen)
+				{
+					return this.ChessPiece.Suit == ChessPieceSuit.WHITE ? ChessField.WhiteQueen : ChessField.BlackQueen;
+				}
+				else if (this.ChessPiece is King)
+				{
+					return this.ChessPiece.Suit == ChessPieceSuit.WHITE ? ChessField.WhiteKing : ChessField.BlackKing;
+				}
+				else
+				{
+					return ChessField.EmptyField;
 				}
 			}
 		}
@@ -65,22 +76,33 @@ namespace MM.Chess
 		{
 			get
 			{
-				switch (this.ChessPiece.Type)
+				if (this.ChessPiece is Pawn)
 				{
-					case ChessPieceType.PAWN:
-						return this.ChessPiece.Suit == ChessPieceSuit.WHITE ? ChessField.WhitePawnSelected : ChessField.BlackPawnSelected;
-					case ChessPieceType.ROOK:
-						return this.ChessPiece.Suit == ChessPieceSuit.WHITE ? ChessField.WhiteRookSelected : ChessField.BlackRookSelected;
-					case ChessPieceType.KNIGHT:
-						return this.ChessPiece.Suit == ChessPieceSuit.WHITE ? ChessField.WhiteKnightSelected : ChessField.BlackKnightSelected;
-					case ChessPieceType.BISHOP:
-						return this.ChessPiece.Suit == ChessPieceSuit.WHITE ? ChessField.WhiteBishopSelected : ChessField.BlackBishopSelected;
-					case ChessPieceType.QUEEN:
-						return this.ChessPiece.Suit == ChessPieceSuit.WHITE ? ChessField.WhiteQueenSelected : ChessField.BlackQueenSelected;
-					case ChessPieceType.KING:
-						return this.ChessPiece.Suit == ChessPieceSuit.WHITE ? ChessField.WhiteKingSelected : ChessField.BlackKingSelected;
-					default:
-						return ChessField.EmptyField;
+					return this.ChessPiece.Suit == ChessPieceSuit.WHITE ? ChessField.WhitePawnSelected : ChessField.BlackPawnSelected;
+				}
+				else if (this.ChessPiece is Rook)
+				{
+					return this.ChessPiece.Suit == ChessPieceSuit.WHITE ? ChessField.WhiteRookSelected : ChessField.BlackRookSelected;
+				}
+				else if (this.ChessPiece is Knight)
+				{
+					return this.ChessPiece.Suit == ChessPieceSuit.WHITE ? ChessField.WhiteKnightSelected : ChessField.BlackKnightSelected;
+				}
+				else if (this.ChessPiece is Bishop)
+				{
+					return this.ChessPiece.Suit == ChessPieceSuit.WHITE ? ChessField.WhiteBishopSelected : ChessField.BlackBishopSelected;
+				}
+				else if (this.ChessPiece is Queen)
+				{
+					return this.ChessPiece.Suit == ChessPieceSuit.WHITE ? ChessField.WhiteQueenSelected : ChessField.BlackQueenSelected;
+				}
+				else if (this.ChessPiece is King)
+				{
+					return this.ChessPiece.Suit == ChessPieceSuit.WHITE ? ChessField.WhiteKingSelected : ChessField.BlackKingSelected;
+				}
+				else
+				{
+					return ChessField.EmptyField;
 				}
 			}
 		}
@@ -92,7 +114,7 @@ namespace MM.Chess
 			{
 				return this.row;
 			}
-			protected set
+			private set
 			{
 				if (value < 0 || value >= Chessboard.Dimension)
 				{
@@ -110,7 +132,7 @@ namespace MM.Chess
 			{
 				return this.column;
 			}
-			protected set
+			private set
 			{
 				if (value < 0 || value >= Chessboard.Dimension)
 				{
@@ -139,7 +161,7 @@ namespace MM.Chess
 				this.Image = value != null ? this.ChessPieceImage : ChessField.EmptyField;
 			}
 		}
-		
+
 		public ChessField(int row, int column, ChessPiece chessPiece = null)
 		{
 			this.Row = row;
