@@ -1,57 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 
 namespace MM.Chess
 {
-	public enum ChessPieceSuit
-	{
-		WHITE, BLACK
-	}
-	
 	public abstract class ChessPiece
 	{
-		protected Chessboard chessboard;
-		public ChessField ChessField
-		{
-			get;
-			internal set;
-		}
-		
-		public int Row
-		{
-			get
-			{
-				return this.ChessField.Row;
-			}
-		}
-		
-		public int Column
-		{
-			get
-			{
-				return this.ChessField.Column;
-			}
-		}
+		public ChessField ChessField { get; internal set; }
 
-		public ChessPieceSuit Suit
-		{
-			get;
-			private set;
-		}
-		
-		public ChessPiece(Chessboard chessboard, ChessPieceSuit suit)
+		public int Row => this.ChessField.Row;
+
+		public int Column => this.ChessField.Column;
+
+		public abstract Image Image { get; }
+		public abstract Image HighlightedImage { get; }
+
+		public abstract IEnumerable<ChessField> ReachableFields { get; }
+		public readonly ChessPieceSuit Suit;
+		protected Chessboard Chessboard;
+
+		protected ChessPiece(Chessboard chessboard, ChessPieceSuit suit)
 		{
 			if (chessboard == null)
 			{
 				throw new ArgumentException("");
 			}
 
-			this.chessboard = chessboard;
+			this.Chessboard = chessboard;
 			this.Suit = suit;
 		}
-
-		public abstract IEnumerable<ChessField> GetReachableFields();
 
 		public bool IsFieldReachable(ChessField field)
 		{
@@ -60,7 +38,7 @@ namespace MM.Chess
 				throw new ArgumentException("");
 			}
 
-			return this.GetReachableFields().Contains(field);
+			return this.ReachableFields.Contains(field);
 		}
 
 		public ChessPiece MoveTo(ChessField field)

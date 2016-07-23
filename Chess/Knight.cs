@@ -1,42 +1,50 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using MM.Chess.Properties;
 
 namespace MM.Chess
 {
 	public class Knight : ChessPiece
 	{
-		public Knight(Chessboard chessboard, ChessPieceSuit suit) : base(chessboard, suit)
-		{
+		public override Image Image => this.Suit == ChessPieceSuit.White ? Resources.WhiteKnight : Resources.BlackKnight;
 
-		}
+		public override Image HighlightedImage => this.Suit == ChessPieceSuit.White ? Resources.WhiteKnightHighlighted : Resources.BlackKnightHighlighted;
 
-		public override IEnumerable<ChessField> GetReachableFields()
+		public override IEnumerable<ChessField> ReachableFields
 		{
-			List<ChessField> reachableFields = new List<ChessField>();
-			for (int row = 0; row < Chessboard.Dimension; row++)
+			get
 			{
-				for (int column = 0; column < Chessboard.Dimension; column++)
+				List<ChessField> reachableFields = new List<ChessField>();
+				for (int row = 0; row < Chessboard.Size; row++)
 				{
-					ChessField field = this.chessboard.ChessFieldAt(row, column);
-					if (IsAttackingField(field) && (field.ChessPiece == null || (field.ChessPiece != null && field.ChessPiece.Suit != this.Suit)))
+					for (int column = 0; column < Chessboard.Size; column++)
 					{
-						reachableFields.Add(field);
+						ChessField field = this.Chessboard.FieldAt(row, column);
+						if (this.IsAttacking(field) && ((field.ChessPiece == null) || ((field.ChessPiece != null) && (field.ChessPiece.Suit != this.Suit))))
+						{
+							reachableFields.Add(field);
+						}
 					}
 				}
-			}
 
-			return reachableFields;
+				return reachableFields;
+			}
+		}
+
+		public Knight(Chessboard chessboard, ChessPieceSuit suit) : base(chessboard, suit)
+		{
+		}
+
+		private bool IsAttacking(ChessField field)
+		{
+			return ((Math.Abs(field.Row - this.Row) == 2) && (Math.Abs(field.Column - this.Column) == 1))
+			       || ((Math.Abs(field.Row - this.Row) == 1) && (Math.Abs(field.Column - this.Column) == 2));
 		}
 
 		public override ChessPiece SpecialMoveTo(ChessField field)
 		{
 			throw new NotImplementedException();
-		}
-
-		private bool IsAttackingField(ChessField field)
-		{
-			return (Math.Abs(field.Row - this.Row) == 2 && Math.Abs(field.Column - this.Column) == 1) 
-				|| (Math.Abs(field.Row - this.Row) == 1 && Math.Abs(field.Column - this.Column) == 2);
 		}
 	}
 }

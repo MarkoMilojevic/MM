@@ -1,23 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using MM.Chess.Properties;
 
 namespace MM.Chess
 {
 	public class Rook : ChessPiece
 	{
-		public Rook(Chessboard chessboard, ChessPieceSuit suit) : base(chessboard, suit)
-		{
+		public override Image Image => this.Suit == ChessPieceSuit.White ? Resources.WhiteRook : Resources.BlackRook;
 
+		public override Image HighlightedImage => this.Suit == ChessPieceSuit.White ? Resources.WhiteRookHighlighted : Resources.BlackRookHighlighted;
+
+		public override IEnumerable<ChessField> ReachableFields
+		{
+			get
+			{
+				List<ChessField> reachableFields = new List<ChessField>();
+				reachableFields.AddRange(this.ExploreUp());
+				reachableFields.AddRange(this.ExploreRight());
+				reachableFields.AddRange(this.ExploreDown());
+				reachableFields.AddRange(this.ExploreLeft());
+				return reachableFields;
+			}
 		}
 
-		public override IEnumerable<ChessField> GetReachableFields()
+		public Rook(Chessboard chessboard, ChessPieceSuit suit) : base(chessboard, suit)
 		{
-			List<ChessField> reachableFields = new List<ChessField>();
-			reachableFields.AddRange(this.ExploreUp());
-			reachableFields.AddRange(this.ExploreRight());
-			reachableFields.AddRange(this.ExploreDown());
-			reachableFields.AddRange(this.ExploreLeft());
-			return reachableFields;
 		}
 
 		public override ChessPiece SpecialMoveTo(ChessField field)
@@ -28,9 +36,9 @@ namespace MM.Chess
 		private IEnumerable<ChessField> ExploreUp()
 		{
 			List<ChessField> reachableFields = new List<ChessField>();
-			for (int i = this.Row + 1; i < Chessboard.Dimension; i++)
+			for (int i = this.Row + 1; i < Chessboard.Size; i++)
 			{
-				ChessField field = this.chessboard.ChessFieldAt(i, this.Column);
+				ChessField field = this.Chessboard.FieldAt(i, this.Column);
 				if (field.ChessPiece == null)
 				{
 					reachableFields.Add(field);
@@ -52,9 +60,9 @@ namespace MM.Chess
 		private IEnumerable<ChessField> ExploreRight()
 		{
 			List<ChessField> reachableFields = new List<ChessField>();
-			for (int i = this.Column + 1; i < Chessboard.Dimension; i++)
+			for (int i = this.Column + 1; i < Chessboard.Size; i++)
 			{
-				ChessField field = this.chessboard.ChessFieldAt(this.Row, i);
+				ChessField field = this.Chessboard.FieldAt(this.Row, i);
 				if (field.ChessPiece == null)
 				{
 					reachableFields.Add(field);
@@ -78,7 +86,7 @@ namespace MM.Chess
 			List<ChessField> reachableFields = new List<ChessField>();
 			for (int i = this.Row - 1; i >= 0; i--)
 			{
-				ChessField field = this.chessboard.ChessFieldAt(i, this.Column);
+				ChessField field = this.Chessboard.FieldAt(i, this.Column);
 				if (field.ChessPiece == null)
 				{
 					reachableFields.Add(field);
@@ -102,7 +110,7 @@ namespace MM.Chess
 			List<ChessField> reachableFields = new List<ChessField>();
 			for (int i = this.Column - 1; i >= 0; i--)
 			{
-				ChessField field = this.chessboard.ChessFieldAt(this.Row, i);
+				ChessField field = this.Chessboard.FieldAt(this.Row, i);
 				if (field.ChessPiece == null)
 				{
 					reachableFields.Add(field);

@@ -1,11 +1,14 @@
-﻿namespace MM.Chess
+﻿using System.ComponentModel;
+using System.Windows.Forms;
+
+namespace MM.Chess
 {
 	partial class MainForm
 	{
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
-		private System.ComponentModel.IContainer components = null;
+		private IContainer components = null;
 
 		/// <summary>
 		/// Clean up any resources being used.
@@ -399,36 +402,36 @@
 
 		#endregion
 
-		private System.Windows.Forms.MenuStrip menuStrip;
-		private System.Windows.Forms.ToolStripMenuItem editMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem setTimerMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem viewMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem showMovesMenuItem;
-		private System.Windows.Forms.Panel chessboardPanel;
-		private System.Windows.Forms.PictureBox rowNumbersImage;
-		private System.Windows.Forms.PictureBox columnLettersImage;
-		private System.Windows.Forms.RichTextBox movesTextBox;
-		private System.Windows.Forms.Button newGameButton;
-		private System.Windows.Forms.Button drawButton;
-		private System.Windows.Forms.Button resignButton;
-		private System.Windows.Forms.Button takeBackButton;
-		private System.Windows.Forms.Button sacrificeButton;
-		private System.Windows.Forms.PictureBox whiteTimerImage;
-		private System.Windows.Forms.PictureBox blackTimerImage;
-		private System.Windows.Forms.Label whiteLabel;
-		private System.Windows.Forms.Label whiteScoreLabel;
-		private System.Windows.Forms.Label scoreColonLabel;
-		private System.Windows.Forms.Label blackScoreLabel;
-		private System.Windows.Forms.Label blackLabel;
-		private System.Windows.Forms.Label whiteMinutesLabel;
-		private System.Windows.Forms.Label whiteTimerColonLabel;
-		private System.Windows.Forms.Label whiteSecondsLabel;
-		private System.Windows.Forms.Label timerHyphenLabel;
-		private System.Windows.Forms.Label blackMinutesLabel;
-		private System.Windows.Forms.Label blackTimerColonLabel;
-		private System.Windows.Forms.Label blackSecondsLabel;
-		private System.Windows.Forms.Label statusTitleLabel;
-		private System.Windows.Forms.Label statusLabel;
+		private MenuStrip menuStrip;
+		private ToolStripMenuItem editMenuItem;
+		private ToolStripMenuItem setTimerMenuItem;
+		private ToolStripMenuItem viewMenuItem;
+		private ToolStripMenuItem showMovesMenuItem;
+		private Panel chessboardPanel;
+		private PictureBox rowNumbersImage;
+		private PictureBox columnLettersImage;
+		private RichTextBox movesTextBox;
+		private Button newGameButton;
+		private Button drawButton;
+		private Button resignButton;
+		private Button takeBackButton;
+		private Button sacrificeButton;
+		private PictureBox whiteTimerImage;
+		private PictureBox blackTimerImage;
+		private Label whiteLabel;
+		private Label whiteScoreLabel;
+		private Label scoreColonLabel;
+		private Label blackScoreLabel;
+		private Label blackLabel;
+		private Label whiteMinutesLabel;
+		private Label whiteTimerColonLabel;
+		private Label whiteSecondsLabel;
+		private Label timerHyphenLabel;
+		private Label blackMinutesLabel;
+		private Label blackTimerColonLabel;
+		private Label blackSecondsLabel;
+		private Label statusTitleLabel;
+		private Label statusLabel;
 	}
 }
 

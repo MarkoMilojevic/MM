@@ -6,44 +6,64 @@ namespace MM.Chess
 {
 	public partial class MainForm : Form
 	{
-		private Chessboard chessboard;
+		private readonly Chessboard chessboard;
+		private readonly int chessFieldHeight;
+		private readonly int chessFieldWidth;
 
 		public MainForm()
 		{
-			InitializeComponent();
-			InitializeChessboardPanel();
+			this.InitializeComponent();
+			this.chessFieldWidth = this.chessboardPanel.Width / Chessboard.Size;
+			this.chessFieldHeight = this.chessboardPanel.Height / Chessboard.Size;
+			this.chessboard = this.CreateChessboard();
 		}
 
-		private void InitializeChessboardPanel()
+		private Chessboard CreateChessboard()
 		{
-			int chessFieldWidth = chessboardPanel.Width / Chessboard.Dimension;
-			int chessFieldHeight = chessboardPanel.Height / Chessboard.Dimension;
-			ChessField[][] chessFields = new ChessField[Chessboard.Dimension][];
-			for (int i = 0; i < Chessboard.Dimension; i++)
+			ChessField[][] fields = new ChessField[Chessboard.Size][];
+			for (int i = 0; i < Chessboard.Size; i++)
 			{
-				chessFields[i] = new ChessField[Chessboard.Dimension];
-				for (int j = 0; j < Chessboard.Dimension; j++)
+				fields[i] = new ChessField[Chessboard.Size];
+				for (int j = 0; j < Chessboard.Size; j++)
 				{
-					ChessField chessField = new ChessField(i, j);
-					chessField.Location = new Point(j * chessFieldWidth, chessboardPanel.Height - (i * chessFieldHeight) - chessFieldHeight);
-					chessField.Size = new Size(chessFieldWidth, chessFieldHeight);
-					chessField.BackColor = (i % 2 != j % 2) ? Color.White : Color.Gray;
-					chessField.Visible = true;
-					chessField.Click += ChessField_Click;
-					chessboardPanel.Controls.Add(chessField);
-					chessFields[i][j] = chessField;
+					ChessField field = this.CreateChessField(i, j);
+					this.chessboardPanel.Controls.Add(field);
+					fields[i][j] = field;
 				}
 			}
 
-			chessboard = new Chessboard(chessFields);
+			return new Chessboard(fields);
 		}
 
-		void ChessField_Click(object sender, EventArgs e)
+		private ChessField CreateChessField(int row, int column)
 		{
-			ChessField chessField = sender as ChessField;
-			if (chessField == null)
+			ChessField field = new ChessField(row, column)
+			{
+				Location = new Point(column * this.chessFieldWidth, this.chessboardPanel.Height - row * this.chessFieldHeight - this.chessFieldHeight),
+				Size = new Size(this.chessFieldWidth, this.chessFieldHeight),
+				BackColor = row % 2 != column % 2 ? Color.White : Color.Gray,
+				Visible = true
+			};
+
+			field.Click += this.OnClickChessField;
+			return field;
+		}
+
+		private void OnClickChessField(object sender, EventArgs e)
+		{
+			ChessField field = sender as ChessField;
+			if (field == null)
 			{
 				return;
+			}
+
+			if (this.chessboard.IsChessPieceSelected())
+			{
+				this.chessboard.MoveTo(field);
+			}
+			else if (this.chessboard.IsChessPieceSelectable(field.ChessPiece))
+			{
+				this.chessboard.SelectChessPiece(field.ChessPiece);
 			}
 		}
 	}
