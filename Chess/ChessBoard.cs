@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace MM.Chess
@@ -6,9 +7,9 @@ namespace MM.Chess
 	public class Chessboard
 	{
 		public const int Size = 8;
-
-		public ChessPieceSuit TurnToPlay { get; private set; }
+		public Player CurrentPlayer { get; private set; }
 		private readonly ChessField[][] fields;
+		private Queue<Player> playersQueue;
 		private ChessPiece selectedPiece;
 
 		public Chessboard(ChessField[][] fields)
@@ -20,7 +21,7 @@ namespace MM.Chess
 
 			this.fields = fields;
 			this.CreateChessPieces();
-			this.TurnToPlay = ChessPieceSuit.White;
+			this.CreatePlayers();
 		}
 
 		private static bool AreFieldsValid(ChessField[][] fields) => (fields != null) && fields.All(arr => (arr != null) && arr.All(field => field != null));
@@ -60,6 +61,21 @@ namespace MM.Chess
 			this.fields[7][4].ChessPiece = new King(this, ChessPieceSuit.Black);
 		}
 
+		private void CreatePlayers()
+		{
+			Player white = new Player(ChessPieceSuit.White, (King) this.fields[0][4].ChessPiece, 0);
+			Player black = new Player(ChessPieceSuit.Black, (King) this.fields[7][4].ChessPiece, 0);
+			this.CurrentPlayer = white;
+			this.playersQueue = new Queue<Player>();
+			this.playersQueue.Enqueue(black);
+		}
+
+		public static void ExecuteMoveUnconditionally(Move move)
+		{
+			move.From.ChessPiece = null;
+			move.To.ChessPiece = move.Piece;
+		}
+
 		public ChessField FieldAt(int row, int column)
 		{
 			if ((row < 0) || (row >= Chessboard.Size) || (column < 0) || (column >= Chessboard.Size))
@@ -82,12 +98,12 @@ namespace MM.Chess
 
 		public bool IsChessPieceSelectable(ChessPiece piece)
 		{
-			return (piece != null) && (piece.Suit == this.TurnToPlay);
+			return (piece != null) && (piece.Suit == this.CurrentPlayer.Suit);
 		}
 
 		public void SelectChessPiece(ChessPiece piece)
 		{
-			if ((piece == null) || (piece.Suit != this.TurnToPlay))
+			if ((piece == null) || (piece.Suit != this.CurrentPlayer.Suit))
 			{
 				throw new ArgumentException("");
 			}
@@ -106,55 +122,43 @@ namespace MM.Chess
 
 			ChessPiece piece = this.selectedPiece;
 			ChessField from = this.selectedPiece.ChessField;
-			MoveCommand move = new MoveCommand(piece, from, to);
+			Move move = new Move(piece, from, to);
 			return this.ExecuteMove(move);
 		}
 
-		public bool ExecuteMove(MoveCommand move)
+		private bool ExecuteMove(Move move)
 		{
 			if (move == null)
 			{
 				return false;
 			}
 
-			ChessPiece piece = move.Piece;
-			ChessField toField = move.To;
-			if (!piece.IsFieldReachable(toField))
+			if (this.IsLeavingKingInCheck(move) || (!move.Piece.IsFieldReachable(move.To) && !move.Piece.IsSpecialMoveAvailable(move)))
 			{
 				return false;
 			}
 
-			King king = this.GetPlayersKing();
-			if (this.IsUnveilingCheck(king, move))
+			if (move.Piece.IsFieldReachable(move.To))
 			{
-				return false;
+				Chessboard.ExecuteMoveUnconditionally(move);
+			}
+			else
+			{
+				IEnumerable<Move> specialMoveSequence = move.Piece.GetSpecialMoveSequence(move);
+				foreach (Move specialMove in specialMoveSequence)
+				{
+					Chessboard.ExecuteMoveUnconditionally(specialMove);
+				}
 			}
 
-			piece.ChessField.ClearHighlight();
-			piece.MoveTo(toField);
-			this.TurnToPlay = this.TurnToPlay == ChessPieceSuit.White ? ChessPieceSuit.Black : ChessPieceSuit.White;
+			move.From.ClearHighlight();
+			this.playersQueue.Enqueue(this.CurrentPlayer);
+			this.CurrentPlayer = this.playersQueue.Dequeue();
 			this.selectedPiece = null;
 			return true;
 		}
 
-		private King GetPlayersKing()
-		{
-			for (int i = 0; i < Chessboard.Size; i++)
-			{
-				for (int j = 0; j < Chessboard.Size; j++)
-				{
-					King king = this.PieceAt(i, j) as King;
-					if ((king != null) && (king.Suit == this.TurnToPlay))
-					{
-						return king;
-					}
-				}
-			}
-
-			return null;
-		}
-
-		private bool IsUnveilingCheck(King king, MoveCommand move)
+		private bool IsLeavingKingInCheck(Move move)
 		{
 			ChessPiece playersPiece = move.Piece;
 			ChessField from = move.From;
@@ -162,20 +166,20 @@ namespace MM.Chess
 			ChessPiece opponentsPiece = to.ChessPiece;
 			from.ChessPiece = null;
 			to.ChessPiece = playersPiece;
-			bool isInCheck = this.IsInCheck(king);
+			bool isInCheck = this.IsAttacked(this.CurrentPlayer.King);
 			from.ChessPiece = playersPiece;
 			to.ChessPiece = opponentsPiece;
 			return isInCheck;
 		}
 
-		private bool IsInCheck(King king)
+		private bool IsAttacked(ChessPiece chessPiece)
 		{
 			for (int i = 0; i < Chessboard.Size; i++)
 			{
 				for (int j = 0; j < Chessboard.Size; j++)
 				{
 					ChessPiece piece = this.PieceAt(i, j);
-					if ((piece != null) && (piece.Suit != this.TurnToPlay) && piece.IsFieldReachable(king.ChessField))
+					if ((piece != null) && (piece.Suit != this.CurrentPlayer.Suit) && piece.IsFieldReachable(chessPiece.ChessField))
 					{
 						return true;
 					}

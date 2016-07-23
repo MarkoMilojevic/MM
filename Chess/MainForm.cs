@@ -20,6 +20,12 @@ namespace MM.Chess
 
 		private Chessboard CreateChessboard()
 		{
+			ChessField[][] fields = this.CreateChessFields();
+			return new Chessboard(fields);
+		}
+
+		private ChessField[][] CreateChessFields()
+		{
 			ChessField[][] fields = new ChessField[Chessboard.Size][];
 			for (int i = 0; i < Chessboard.Size; i++)
 			{
@@ -32,7 +38,7 @@ namespace MM.Chess
 				}
 			}
 
-			return new Chessboard(fields);
+			return fields;
 		}
 
 		private ChessField CreateChessField(int row, int column)
@@ -57,13 +63,13 @@ namespace MM.Chess
 				return;
 			}
 
-			if (this.chessboard.IsChessPieceSelected())
-			{
-				this.chessboard.MoveTo(field);
-			}
-			else if (this.chessboard.IsChessPieceSelectable(field.ChessPiece))
+			if (this.chessboard.IsChessPieceSelectable(field.ChessPiece))
 			{
 				this.chessboard.SelectChessPiece(field.ChessPiece);
+			}
+			else if (this.chessboard.IsChessPieceSelected())
+			{
+				this.chessboard.MoveTo(field);
 			}
 		}
 	}
