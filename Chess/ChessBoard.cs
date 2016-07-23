@@ -9,6 +9,7 @@ namespace MM.Chess
 		public const int Size = 8;
 		public Player CurrentPlayer { get; private set; }
 		private readonly ChessField[][] fields;
+		public readonly Stack<Move> PlayedMoves;
 		private Queue<Player> playersQueue;
 		private ChessPiece selectedPiece;
 
@@ -20,6 +21,7 @@ namespace MM.Chess
 			}
 
 			this.fields = fields;
+			this.PlayedMoves = new Stack<Move>();
 			this.CreateChessPieces();
 			this.CreatePlayers();
 		}
@@ -151,7 +153,7 @@ namespace MM.Chess
 				}
 			}
 
-			move.From.ClearHighlight();
+			this.PlayedMoves.Push(move);
 			this.playersQueue.Enqueue(this.CurrentPlayer);
 			this.CurrentPlayer = this.playersQueue.Dequeue();
 			this.selectedPiece = null;
@@ -165,21 +167,23 @@ namespace MM.Chess
 			ChessField to = move.To;
 			ChessPiece opponentsPiece = to.ChessPiece;
 			from.ChessPiece = null;
+			playersPiece.ChessField = null; // stop chesspiece 'on chesspiece property change' event to fire
 			to.ChessPiece = playersPiece;
-			bool isInCheck = this.IsAttacked(this.CurrentPlayer.King);
+			bool isInCheck = this.IsAttackedByOpponent(this.CurrentPlayer.King);
+			playersPiece.ChessField = null; // stop chesspiece 'on chesspiece property change' event to fire
 			from.ChessPiece = playersPiece;
 			to.ChessPiece = opponentsPiece;
 			return isInCheck;
 		}
 
-		private bool IsAttacked(ChessPiece chessPiece)
+		public bool IsAttackedByOpponent(ChessField chessField)
 		{
 			for (int i = 0; i < Chessboard.Size; i++)
 			{
 				for (int j = 0; j < Chessboard.Size; j++)
 				{
 					ChessPiece piece = this.PieceAt(i, j);
-					if ((piece != null) && (piece.Suit != this.CurrentPlayer.Suit) && piece.IsFieldReachable(chessPiece.ChessField))
+					if ((piece != null) && (piece.Suit != this.CurrentPlayer.Suit) && piece.IsFieldReachable(chessField))
 					{
 						return true;
 					}
@@ -187,6 +191,11 @@ namespace MM.Chess
 			}
 
 			return false;
+		}
+
+		public bool IsAttackedByOpponent(ChessPiece piece)
+		{
+			return this.IsAttackedByOpponent(piece.ChessField);
 		}
 	}
 }

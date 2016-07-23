@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
 using MM.Chess.Properties;
 
 namespace MM.Chess
@@ -50,12 +49,7 @@ namespace MM.Chess
 
 		public override IEnumerable<Move> GetSpecialMoveSequence(Move move)
 		{
-			if (!this.IsSpecialMoveAvailable(move))
-			{
-				throw new InvalidOperationException("");
-			}
-
-			return Enumerable.Empty<Move>();
+			throw new InvalidOperationException("");
 		}
 	}
 }

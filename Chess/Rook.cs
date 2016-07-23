@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
-using System.Linq;
 using MM.Chess.Properties;
 
 namespace MM.Chess
@@ -25,23 +25,28 @@ namespace MM.Chess
 			}
 		}
 
+		internal bool HasMoved;
+
 		public Rook(Chessboard chessboard, ChessPieceSuit suit) : base(chessboard, suit)
 		{
+			this.HasMoved = false;
+			this.PropertyChanged += delegate(object sender, PropertyChangedEventArgs e)
+			{
+				if (e.PropertyName == nameof(this.ChessField))
+				{
+					this.HasMoved = true;
+				}
+			};
 		}
 
 		public override bool IsSpecialMoveAvailable(Move move)
 		{
-			return false;
+			return !this.HasMoved;
 		}
 
 		public override IEnumerable<Move> GetSpecialMoveSequence(Move move)
 		{
-			if (!this.IsSpecialMoveAvailable(move))
-			{
-				throw new InvalidOperationException("");
-			}
-
-			return Enumerable.Empty<Move>();
+			throw new InvalidOperationException("");
 		}
 
 		private IEnumerable<ChessField> ExploreUp()

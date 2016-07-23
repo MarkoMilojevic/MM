@@ -4,9 +4,9 @@ namespace MM.Chess
 {
 	public class Move
 	{
-		public readonly ChessPiece Piece;
-		public readonly ChessPiece OpponentsPiece;
 		public readonly ChessField From;
+		public readonly ChessPiece OpponentsPiece;
+		public readonly ChessPiece Piece;
 		public readonly ChessField To;
 
 		public Move(ChessPiece piece, ChessField from, ChessField to)

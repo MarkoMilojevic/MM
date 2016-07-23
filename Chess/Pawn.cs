@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
 using MM.Chess.Properties;
 
 namespace MM.Chess
@@ -49,28 +48,52 @@ namespace MM.Chess
 			}
 		}
 
+		private readonly int enPassantRow;
+
 		private readonly int moveDirection;
 		private readonly int startRow;
 
 		public Pawn(Chessboard chessboard, ChessPieceSuit suit) : base(chessboard, suit)
 		{
-			this.startRow = suit == ChessPieceSuit.White ? 1 : 6;
 			this.moveDirection = suit == ChessPieceSuit.White ? 1 : -1;
+			this.startRow = suit == ChessPieceSuit.White ? 1 : 6;
+			this.enPassantRow = suit == ChessPieceSuit.White ? 4 : 3;
 		}
 
 		public override bool IsSpecialMoveAvailable(Move move)
 		{
-			return false;
+			return this.IsEnPassantAvailable(move);
 		}
 
 		public override IEnumerable<Move> GetSpecialMoveSequence(Move move)
 		{
-			if (!this.IsSpecialMoveAvailable(move))
+			if (this.IsEnPassantAvailable(move))
 			{
-				throw new InvalidOperationException("");
+				return this.EnPassantMoveSequence(move);
 			}
 
-			return Enumerable.Empty<Move>();
+			throw new InvalidOperationException("");
+		}
+
+		private bool IsEnPassantAvailable(Move move)
+		{
+			if (this.Row != this.enPassantRow)
+			{
+				return false;
+			}
+
+			Move previousMove = this.Chessboard.PlayedMoves.Peek();
+			return previousMove.Piece is Pawn && (previousMove.To.Row == this.enPassantRow) && (Math.Abs(this.Column - previousMove.To.Column) == 1) &&
+			       (move.To.Column == previousMove.To.Column) && (move.To.Row == previousMove.To.Row + this.moveDirection) &&
+			       (previousMove.From.Row == ((Pawn) previousMove.Piece).startRow);
+		}
+
+		private IEnumerable<Move> EnPassantMoveSequence(Move move)
+		{
+			Move previousMove = this.Chessboard.PlayedMoves.Peek();
+			Move move1 = new Move(move.Piece, move.From, previousMove.To);
+			Move move2 = new Move(move.Piece, previousMove.To, move.To);
+			return new[] {move1, move2};
 		}
 	}
 }
