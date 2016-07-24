@@ -117,6 +117,7 @@ namespace MM.Chess
 				}
 
 				this.chessboard.ClearAllHighlights();
+				this.sacrificeButton.Enabled = false;
 				if (!this.Timer.Enabled)
 				{
 					this.Timer.Start();

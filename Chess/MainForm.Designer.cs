@@ -397,8 +397,10 @@ namespace MM.Chess
 			this.Controls.Add(this.chessboardPanel);
 			this.Controls.Add(this.rowNumbersImage);
 			this.Controls.Add(this.menuStrip);
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MainMenuStrip = this.menuStrip;
+			this.MaximizeBox = false;
 			this.MinimumSize = new System.Drawing.Size(600, 650);
 			this.Name = "MainForm";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
