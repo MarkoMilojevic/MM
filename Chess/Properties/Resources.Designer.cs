@@ -221,6 +221,96 @@ namespace MM.Chess.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to BLACK to play..
+        /// </summary>
+        internal static string StatusBlackToPlay {
+            get {
+                return ResourceManager.GetString("StatusBlackToPlay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Checkmate. BLACK wins..
+        /// </summary>
+        internal static string StatusBlackWins {
+            get {
+                return ResourceManager.GetString("StatusBlackWins", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Draw..
+        /// </summary>
+        internal static string StatusDraw {
+            get {
+                return ResourceManager.GetString("StatusDraw", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to WHITE to play..
+        /// </summary>
+        internal static string StatusWhiteToPlay {
+            get {
+                return ResourceManager.GetString("StatusWhiteToPlay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Checkmate. WHITE wins..
+        /// </summary>
+        internal static string StatusWhiteWins {
+            get {
+                return ResourceManager.GetString("StatusWhiteWins", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 10 min.
+        /// </summary>
+        internal static string Time10min {
+            get {
+                return ResourceManager.GetString("Time10min", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 15 min.
+        /// </summary>
+        internal static string Time15min {
+            get {
+                return ResourceManager.GetString("Time15min", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 30 min.
+        /// </summary>
+        internal static string Time30min {
+            get {
+                return ResourceManager.GetString("Time30min", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 5 min.
+        /// </summary>
+        internal static string Time5min {
+            get {
+                return ResourceManager.GetString("Time5min", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No limit.
+        /// </summary>
+        internal static string TimeNoLimit {
+            get {
+                return ResourceManager.GetString("TimeNoLimit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap Timer {

@@ -69,12 +69,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bishop.cs" />
+    <Compile Include="BlackPawnPromotionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BlackPawnPromotionForm.Designer.cs">
+      <DependentUpon>BlackPawnPromotionForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Chessboard.cs" />
     <Compile Include="ChessField.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="ChessPiece.cs" />
     <Compile Include="ChessPieceSuit.cs" />
+    <Compile Include="GameStatus.cs" />
     <Compile Include="King.cs" />
     <Compile Include="Knight.cs" />
     <Compile Include="MainForm.cs">
@@ -87,10 +94,26 @@
     <Compile Include="Pawn.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="Promotion.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Queen.cs" />
     <Compile Include="Rook.cs" />
+    <Compile Include="TimerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TimerForm.Designer.cs">
+      <DependentUpon>TimerForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WhitePawnPromotionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WhitePawnPromotionForm.Designer.cs">
+      <DependentUpon>WhitePawnPromotionForm.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="BlackPawnPromotionForm.resx">
+      <DependentUpon>BlackPawnPromotionForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -104,6 +127,12 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="TimerForm.resx">
+      <DependentUpon>TimerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WhitePawnPromotionForm.resx">
+      <DependentUpon>WhitePawnPromotionForm.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

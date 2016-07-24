@@ -2,15 +2,15 @@
 {
 	public class Player
 	{
-		public int TimeToPlay { get; set; }
+		public int TimeToPlayInSeconds { get; set; }
 		public readonly King King;
 		public readonly ChessPieceSuit Suit;
 
-		public Player(ChessPieceSuit suit, King king, int timeToPlay)
+		public Player(ChessPieceSuit suit, King king, int timeToPlayInSeconds)
 		{
 			this.Suit = suit;
 			this.King = king;
-			this.TimeToPlay = timeToPlay;
+			this.TimeToPlayInSeconds = timeToPlayInSeconds;
 		}
 	}
 }

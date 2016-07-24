@@ -11,7 +11,7 @@ namespace MM.Chess
 
 		public Move(ChessPiece piece, ChessField from, ChessField to)
 		{
-			if ((piece == null) || (from == null) || (to == null))
+			if ((from == null) || (to == null))
 			{
 				throw new ArgumentNullException("");
 			}

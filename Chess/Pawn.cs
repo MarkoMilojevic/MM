@@ -25,10 +25,13 @@ namespace MM.Chess
 				if (oneUp.ChessPiece == null)
 				{
 					reachableFields.Add(oneUp);
-					ChessField twoUp = this.Chessboard.FieldAt(this.Row + 2 * this.moveDirection, this.Column);
-					if ((this.Row == this.startRow) && (twoUp.ChessPiece == null))
+					if (this.Row == this.startRow)
 					{
-						reachableFields.Add(twoUp);
+						ChessField twoUp = this.Chessboard.FieldAt(this.Row + 2 * this.moveDirection, this.Column);
+						if (twoUp.ChessPiece == null)
+						{
+							reachableFields.Add(twoUp);
+						}
 					}
 				}
 

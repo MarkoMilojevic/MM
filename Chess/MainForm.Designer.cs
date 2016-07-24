@@ -31,12 +31,13 @@ namespace MM.Chess
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
 			this.menuStrip = new System.Windows.Forms.MenuStrip();
 			this.editMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.setTimerMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.viewMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.showMovesMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.highlightAvailableMovesMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.rowNumbersImage = new System.Windows.Forms.PictureBox();
 			this.chessboardPanel = new System.Windows.Forms.Panel();
 			this.columnLettersImage = new System.Windows.Forms.PictureBox();
@@ -62,6 +63,7 @@ namespace MM.Chess
 			this.blackSecondsLabel = new System.Windows.Forms.Label();
 			this.statusTitleLabel = new System.Windows.Forms.Label();
 			this.statusLabel = new System.Windows.Forms.Label();
+			this.Timer = new System.Windows.Forms.Timer(this.components);
 			this.menuStrip.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.rowNumbersImage)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.columnLettersImage)).BeginInit();
@@ -93,20 +95,22 @@ namespace MM.Chess
 			this.setTimerMenuItem.Name = "setTimerMenuItem";
 			this.setTimerMenuItem.Size = new System.Drawing.Size(130, 22);
 			this.setTimerMenuItem.Text = "Set timer...";
+			this.setTimerMenuItem.Click += new System.EventHandler(this.OnClickSetTimerMenuItem);
 			// 
 			// viewMenuItem
 			// 
 			this.viewMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.showMovesMenuItem});
+            this.highlightAvailableMovesMenuItem});
 			this.viewMenuItem.Name = "viewMenuItem";
 			this.viewMenuItem.Size = new System.Drawing.Size(46, 20);
 			this.viewMenuItem.Text = "VIEW";
 			// 
-			// showMovesMenuItem
+			// highlightAvailableMovesMenuItem
 			// 
-			this.showMovesMenuItem.Name = "showMovesMenuItem";
-			this.showMovesMenuItem.Size = new System.Drawing.Size(190, 22);
-			this.showMovesMenuItem.Text = "Show available moves";
+			this.highlightAvailableMovesMenuItem.Name = "highlightAvailableMovesMenuItem";
+			this.highlightAvailableMovesMenuItem.Size = new System.Drawing.Size(190, 22);
+			this.highlightAvailableMovesMenuItem.Text = "Show available moves";
+			this.highlightAvailableMovesMenuItem.Click += new System.EventHandler(this.OnClickShowMovesMenuItem);
 			// 
 			// rowNumbersImage
 			// 
@@ -155,6 +159,7 @@ namespace MM.Chess
 			this.newGameButton.TabIndex = 5;
 			this.newGameButton.Text = "New Game";
 			this.newGameButton.UseVisualStyleBackColor = true;
+			this.newGameButton.Click += new System.EventHandler(this.OnClickNewGameButton);
 			// 
 			// drawButton
 			// 
@@ -164,6 +169,7 @@ namespace MM.Chess
 			this.drawButton.TabIndex = 6;
 			this.drawButton.Text = "Draw";
 			this.drawButton.UseVisualStyleBackColor = true;
+			this.drawButton.Click += new System.EventHandler(this.OnClickDrawButton);
 			// 
 			// resignButton
 			// 
@@ -173,6 +179,7 @@ namespace MM.Chess
 			this.resignButton.TabIndex = 7;
 			this.resignButton.Text = "Resign";
 			this.resignButton.UseVisualStyleBackColor = true;
+			this.resignButton.Click += new System.EventHandler(this.OnClickResignButton);
 			// 
 			// takeBackButton
 			// 
@@ -182,6 +189,7 @@ namespace MM.Chess
 			this.takeBackButton.TabIndex = 8;
 			this.takeBackButton.Text = "Take Back";
 			this.takeBackButton.UseVisualStyleBackColor = true;
+			this.takeBackButton.Click += new System.EventHandler(this.OnClickTakeBackButton);
 			// 
 			// sacrificeButton
 			// 
@@ -191,6 +199,7 @@ namespace MM.Chess
 			this.sacrificeButton.TabIndex = 9;
 			this.sacrificeButton.Text = "Sacrifice";
 			this.sacrificeButton.UseVisualStyleBackColor = true;
+			this.sacrificeButton.Click += new System.EventHandler(this.OnClickSacrificeButton);
 			// 
 			// whiteLabel
 			// 
@@ -352,6 +361,11 @@ namespace MM.Chess
 			this.statusLabel.TabIndex = 25;
 			this.statusLabel.Text = "WHITE to play.";
 			// 
+			// Timer
+			// 
+			this.Timer.Interval = 1000;
+			this.Timer.Tick += new System.EventHandler(this.TimerTick);
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -406,7 +420,7 @@ namespace MM.Chess
 		private ToolStripMenuItem editMenuItem;
 		private ToolStripMenuItem setTimerMenuItem;
 		private ToolStripMenuItem viewMenuItem;
-		private ToolStripMenuItem showMovesMenuItem;
+		private ToolStripMenuItem highlightAvailableMovesMenuItem;
 		private Panel chessboardPanel;
 		private PictureBox rowNumbersImage;
 		private PictureBox columnLettersImage;
@@ -432,6 +446,7 @@ namespace MM.Chess
 		private Label blackSecondsLabel;
 		private Label statusTitleLabel;
 		private Label statusLabel;
+		private Timer Timer;
 	}
 }
 
